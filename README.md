@@ -63,7 +63,7 @@ A layered security architecture is implemented to prevent unauthorized financial
 ### 2. Clone the Repository
 
 ```bash
-git clone -b Version2 https://github.com/Fasepulveda/CompSecurityDeFi-AgenticAI.git
+git clone -b FinalVersion https://github.com/Fasepulveda/CompSecurityDeFi-AgenticAI.git
 cd CompSecurityDeFi-AgenticAI
 ```
 
