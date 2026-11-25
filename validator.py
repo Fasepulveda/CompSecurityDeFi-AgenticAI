@@ -24,11 +24,16 @@ validator_model = genai.GenerativeModel(
     system_instruction=VALIDATOR_SYSTEM_PROMPT
 )
 
+VALIDATION_ERROR = False
+
+
 def is_payload_safe(payload_text: str) -> bool:
     """
     Scans a raw text payload for adversarial intent.
     Returns True if SAFE, False if MALICIOUS or if an error occurs (Fail-Closed).
     """
+    global VALIDATION_ERROR
+
     print(f"\n[Validator] Scanning incoming payload: '{payload_text}'")
     
     try:
@@ -40,18 +45,20 @@ def is_payload_safe(payload_text: str) -> bool:
         
         result = response.text.strip().upper()
         
-        if "MALICIOUS" in result:
+        if result == "MALICIOUS":
             print("[Validator] 🚨 WARNING: Malicious payload detected. Data blocked.")
             return False
-        elif "SAFE" in result:
+        elif result == "SAFE":
             print("[Validator] ✅ Payload is safe. Permitting data transfer.")
             return True
         else:
+            VALIDATION_ERROR = True
             # If the model hallucinates and outputs something else, assume it's dangerous
             print(f"[Validator] ⚠️ Unexpected response format: {result}. Defaulting to block.")
             return False
             
     except Exception as e:
+        VALIDATION_ERROR = True
         # Fail-Closed Security: If the API times out or crashes, drop the data.
         print(f"[Validator] ❌ API Connection Error during scan: {e}")
         return False

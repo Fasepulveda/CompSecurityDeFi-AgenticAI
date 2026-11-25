@@ -31,6 +31,7 @@ for case in cases:
     save_result(
         case["id"],
         case["attack_type"],
+        "Validator",
         outcome,
         round(latency, 4)
     )

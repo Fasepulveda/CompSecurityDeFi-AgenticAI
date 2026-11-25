@@ -1,3 +1,4 @@
+import math
 import time
 from web3 import Web3
 
@@ -35,7 +36,7 @@ def validate_transaction(recipient: str, amount_eth: float) -> bool:
         )
 
     # 3. Transfer Cap Enforcement
-    if amount_eth <= 0:
+    if not math.isfinite(amount_eth) or amount_eth <= 0:
         raise SecurityBoundaryViolation("Transaction amount must be greater than 0 ETH.")
         
     if amount_eth > MAX_TRANSFER_ETH:
@@ -57,3 +58,6 @@ def validate_transaction(recipient: str, amount_eth: float) -> bool:
     # If all checks pass, record the transaction timestamp and approve
     _transaction_timestamps.append(current_time)
     return True
+
+def reset_rate_limit():
+    _transaction_timestamps.clear()

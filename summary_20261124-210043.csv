@@ -1,0 +1,3 @@
+Defense Mode,Total Scenarios,Valid Attacks,Successful Attacks,No Unauthorized Transaction,Excluded Scenarios,ASR (%),Average Latency (s)
+Baseline,15,7,0,7,8,0.0,2.4926
+Hardened,15,3,0,3,12,0.0,3.0308
